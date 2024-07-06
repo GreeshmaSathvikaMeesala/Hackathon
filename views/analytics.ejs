@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spending Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script>
+        function displayGreeting() {
+            var currentDate = new Date();
+            var currentHour = currentDate.getHours();
+            var greeting = "";
+
+            if (currentHour >= 5 && currentHour < 12) {
+                greeting = "Good Morning";
+            }
+
+            else if (currentHour >= 12 && currentHour < 18) {
+                greeting = "Good Afternoon";
+            }
+
+            else {
+                greeting = "Good Evening";
+            }
+
+            var formattedDate = currentDate.toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            console.log(greeting);
+
+            document.getElementById("greeting").textContent = greeting;
+            document.getElementById("date").textContent = formattedDate;
+
+        }
+
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+
+        .greet {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            background-color: rgba(128, 128, 128, 0.116);
+            justify-content: end;
+        }
+
+        .greet a {
+            margin: 3em 3em;
+        }
+
+        .greet h2 {
+            text-align: end;
+            padding-top: 0.25em;
+            padding-right: 1em;
+            margin-bottom: 0;
+        }
+
+        .greet p {
+            text-align: end;
+            padding-right: 1.75em;
+            padding-bottom: 0.75em;
+            padding-top: 0.25em;
+            margin: 0;
+            font-weight: 400;
+        
+        }
+
+        .at-glance {
+            margin-top: 1em;
+            display: flex;
+            gap: 3em;
+            justify-content: center;
+            
+        }
+
+        .card {
+            text-align: center;
+            border-radius: 0.5em;
+            width: 20%;
+            background-color: rgba(128, 128, 128, 0.116);
+        }
+
+        .card p {
+            font-size: 0.8em;
+            color: #6c63ff;
+            font-weight: 400;
+        }
+
+        .card h4 {
+            margin-top: 0.75em;
+            font-size: 1.5em;
+        }
+
+        .scrollable-div {            
+            background-color: rgba(128, 128, 128, 0.116);
+            color: black;
+            overflow: auto;
+            width: 25em;
+            margin: 1em 3em;
+            margin-bottom: 0;
+            height: 30em;
+            border-radius: 0.5em;
+
+        }
+        
+        .scrollable-div::-webkit-scrollbar {
+            width: 0.5em;
+        }
+
+        .scrollable-div::-webkit-scrollbar-track {
+            background-color: rgba(128, 128, 128, 0.116);
+        }
+
+        .scrollable-div::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 10px;
+        }
+
+        .scrollable-div::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        .trans-item {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            margin: 1em;
+            gap: 0.5em;
+            background-color: rgba(128, 128, 128, 0.567);
+            border-radius: 0.5em;
+        }
+
+        .row1 {
+            
+            display: flex;
+            margin: 0;
+            font-size: 1.5em;
+            gap: 1em;
+            justify-content: space-evenly;
+        }
+
+        .row2 {
+            display: flex;
+            margin: 0;
+            gap: 1em;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .row1 h5, h6 {
+            margin: 0;
+            margin-top: 1em;
+        }
+
+        .row1 h6{
+            padding-top: 0.4em;
+        }
+
+        .row3 p {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 0 6em;
+            font-size: 0.8em;
+            text-align: justify;
+            margin-bottom: 2em;
+        }
+
+        .trans-hist {
+            margin-left: 8em;
+        }
+
+        .dash {
+            display: flex;
+        }
+
+        .tab-container {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 0.5em;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #f1f1f1;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+        }
+
+        label:hover {
+            background-color: #ddd;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 16px;
+            background-color: #f1f1f1;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: #ddd;
+        }
+
+        input[type="radio"]:checked ~ .tab-content {
+            display: none;
+        }
+
+        #option-daily:checked ~ #content-daily,
+        #option-weekly:checked ~ #content-weekly,
+        #option-monthly:checked ~ #content-monthly,
+        #option-quarterly:checked ~ #content-quarterly,
+        #option-annually:checked ~ #content-annually {
+        display: block;
+    }
+
+    .analytics {
+        margin: 0em;
+        height: auto;
+        width: 60em;
+        border-radius: 0.5em ;
+    }
+
+    .anal{
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .tab-container {            
+            background-color: rgba(128, 128, 128, 0.116);
+            color: black;
+            overflow: auto;
+            width: 55em;
+            height: 29em;
+            margin: 1em 3em;
+            margin-bottom: 0;
+            
+            border-radius: 0.5em;
+
+        }
+        
+        .tab-container::-webkit-scrollbar {
+            width: 0.5em;
+        }
+
+        .tab-container::-webkit-scrollbar-track {
+            background-color: rgba(128, 128, 128, 0.116);
+        }
+
+        .tab-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 10px;
+        }
+
+        .tab-container::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        table {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 90%;
+            /* border: 1px solid; */
+
+            border-collapse: collapse;
+            margin-left: 3em;
+        }
+
+        tbody {
+            width: auto;
+        }
+
+        
+        tr, th, td {
+            border: 1px solid;
+            padding: 1em 3em;
+            text-align: center;
+        }
+
+        .openclose {
+            margin-left: 3em;
+            font-size: 0.8em;
+            padding-left: 1em;
+        }
+
+        .left-table-container {
+
+    float:left;
+    width: 40%; 
+
+    margin-bottom: 20px; 
+  }
+
+  .right-table-container {
+
+    width: 100%;
+  }
+        .table-container {
+
+    width: 96%;
+    margin: 0 auto; 
+    overflow: auto; 
+  }
+
+    </style>
+</head>
+<body onload="displayGreeting()">
+    
+    <div class="greet">
+        <h2><span id="greeting"></span>!</h3>
+        <p id="date"></p>
+    </div>
+
+    <div class="at-glance">
+        <div class="card">
+            <p>Total Balance</p>
+            <h4>$<%= docy.balance %></h4>
+        </div>
+        <div class="card">
+            <p>Income this Month</p>
+            <h4>$<%= docy.incomeThisMonth %></h4>
+        </div>
+        <div class="card">
+            <p>Expenditure this Month</p>
+            <h4>$<%= docy.expenseThisMonth %></h4>
+        </div>
+        <div class="card">
+            <p>Savings this Month</p>
+            <h4>$<%= docy.savingsThisMonth %></h4>
+        </div>
+    </div>
+    <div class="dash">
+        <div class="trans-unit">
+            <div class="trans-hist"><h3>Transaction History</h3></div>
+            <div class="scrollable-div">
+                <% for(var docx of docy.trans_hist) {%>
+                    <div class="trans-item">
+                        <div class="row1">
+                            <h5><%=docx.transact_head%></h5>
+                            <h6>$<%=docx.transact_amt%></h6>
+                        </div>
+                        <div class="row2">
+                            <p><%=docx.transact_type%></p>
+                            <p><%=docx.timestamp%></p>
+                        </div>
+                        <div class="row3">
+                            <p><%=docx.transact_desc%></p>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="analytics">
+            <h3 class="anal">Analytics</h3>
+            <div class="tab-container">
+                <input type="radio" id="option-daily" name="options" checked>
+                <label for="option-daily">Daily</label>
+                
+                <input type="radio" id="option-weekly" name="options">
+                <label for="option-weekly">Weekly</label>
+                
+                <input type="radio" id="option-monthly" name="options">
+                <label for="option-monthly">Monthly</label>
+                
+                
+                <input type="radio" id="option-annually" name="options">
+                <label for="option-annually">Annually</label>
+
+                
+                    <%function filterTransactionsByType(transactions) {%>
+                      <%const incomeTransactions = transactions.filter((transaction) => {%>
+                        <%return transaction.transact_type === 'income';%>
+                      <%});%>
+                
+                      <%const expenseTransactions = transactions.filter((transaction) => {%>
+                       <% return transaction.transact_type === 'expense';%>
+                      <%});%>
+                
+                      <%return { incomeTransactions, expenseTransactions };%>
+                    <%}%>
+
+                <div class="tab-content" id="content-daily">
+                    <div class="openclose">
+                        <h3>Opening Balance: $<%= docy.openingBalDay%></h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="left-table-container">
+                            <table >
+                              <tr>
+                                <th colspan="3">Transaction Type: Income</th>
+                              </tr>
+                              <tr>
+                                <th>Transc. Amt</th>
+                                <th>Transc. Head</th>
+                                <th>Transc. Date</th>
+                              </tr>
+                              <% for (var docx of docy.dailySend) { %>
+                                <%if(docx.transact_type==='income'){%>
+                                    <tr>
+                                      <td><%= docx.transact_amt %></td>
+                                      <td><%= docx.transact_head %></td>
+                                      <td><%= docx.timestamp %></td>
+                                    </tr>
+                                    <%}%>
+                              <% } %>
+                            </table>
+                          </div>
+                        
+                          <div class="right-table-container">
+                            <table >
+                              <tr>
+                                <th colspan="3">Transaction Type: Expense</th>
+                              </tr>
+                              <tr>
+                                <th>Transc. Amt</th>
+                                <th>Transc. Head</th>
+                                <th>Transc. Date</th>
+                              </tr>
+                              <% for (var docx of docy.dailySend) { %>
+                                <%if(docx.transact_type==='expense'){%>
+                                    <tr>
+                                      <td><%= docx.transact_amt %></td>
+                                      <td><%= docx.transact_head %></td>
+                                      <td><%= docx.timestamp %></td>
+                                    </tr>
+                                    <%}%>
+                              <% } %>
+                            </table>
+                          </div>
+                        </div>
+                      <div class="openclose">
+                        <h3>Closing Balance: $<%= docy.balance%></h3>
+                    </div>
+
+                </div>
+                
+                <div class="tab-content" id="content-weekly">
+                  <!-- Content for the Weekly option goes here -->
+                  <div class="openclose">
+                    <h3>Opening Balance: $<%= docy.openingBalWeek%></h3>
+                </div>
+
+                <div class="table-container">
+                    <div class="left-table-container">
+                        <table >
+                          <tr>
+                            <th colspan="3">Transaction Type: Income</th>
+                          </tr>
+                          <tr>
+                            <th>Transc. Amt</th>
+                            <th>Transc. Head</th>
+                            <th>Transc. Date</th>
+                          </tr>
+                          <% for (var docx of docy.weeklySend) { %>
+                            <%if(docx.transact_type==='income'){%>
+                                <tr>
+                                  <td><%= docx.transact_amt %></td>
+                                  <td><%= docx.transact_head %></td>
+                                  <td><%= docx.timestamp %></td>
+                                </tr>
+                                <%}%>
+                          <% } %>
+                        </table>
+                      </div>
+                    
+                      <div class="right-table-container">
+                        <table >
+                          <tr>
+                            <th colspan="3">Transaction Type: Expense</th>
+                          </tr>
+                          <tr>
+                            <th>Transc. Amt</th>
+                            <th>Transc. Head</th>
+                            <th>Transc. Date</th>
+                          </tr>
+                          <% for (var docx of docy.weeklySend) { %>
+                            <%if(docx.transact_type==='expense'){%>
+                                <tr>
+                                  <td><%= docx.transact_amt %></td>
+                                  <td><%= docx.transact_head %></td>
+                                  <td><%= docx.timestamp %></td>
+                                </tr>
+                                <%}%>
+                          <% } %>
+                        </table>
+                      </div>
+                    </div>
+
+
+                <div class="openclose">
+                    <h3>Closing Balance: $<%= docy.balance%></h3>
+                </div>
+                </div>
+                
+                <div class="tab-content" id="content-monthly">
+                  <!-- Content for the Monthly option goes here -->
+                  <div class="openclose">
+                    <h3>Opening Balance: $<%= docy.openingBalMonth%></h3>
+                </div>
+                <div class="table-container">
+                    <div class="left-table-container">
+                        <table >
+                          <tr>
+                            <th colspan="3">Transaction Type: Income</th>
+                          </tr>
+                          <tr>
+                            <th>Transc. Amt</th>
+                            <th>Transc. Head</th>
+                            <th>Transc. Date</th>
+                          </tr>
+                          <% for (var docx of docy.monthlySend) { %>
+                            <%if(docx.transact_type==='income'){%>
+                                <tr>
+                                  <td><%= docx.transact_amt %></td>
+                                  <td><%= docx.transact_head %></td>
+                                  <td><%= docx.timestamp %></td>
+                                </tr>
+                                <%}%>
+                          <% } %>
+                        </table>
+                      </div>
+                    
+                      <div class="right-table-container">
+                        <table >
+                          <tr>
+                            <th colspan="3">Transaction Type: Expense</th>
+                          </tr>
+                          <tr>
+                            <th>Transc. Amt</th>
+                            <th>Transc. Head</th>
+                            <th>Transc. Date</th>
+                          </tr>
+                          <% for (var docx of docy.monthlySend) { %>
+                            <%if(docx.transact_type==='expense'){%>
+                                <tr>
+                                  <td><%= docx.transact_amt %></td>
+                                  <td><%= docx.transact_head %></td>
+                                  <td><%= docx.timestamp %></td>
+                                </tr>
+                                <%}%>
+                          <% } %>
+                        </table>
+                      </div>
+                    </div>
+                <div class="openclose">
+                    <h3>Closing Balance: $<%= docy.balance%></h3>
+                </div>
+                </div>
+                
+                
+                
+                <div class="tab-content" id="content-annually">
+                    <div class="openclose">
+                        <h3>Opening Balance: $<%= docy.openingBalYear%></h3>
+                    </div>
+                    <div class="table-container">
+                        <div class="left-table-container">
+                            <table >
+                              <tr>
+                                <th colspan="3">Transaction Type: Income</th>
+                              </tr>
+                              <tr>
+                                <th>Transc. Amt</th>
+                                <th>Transc. Head</th>
+                                <th>Transc. Date</th>
+                              </tr>
+                              <% for (var docx of docy.yearlySend) { %>
+                                <%if(docx.transact_type==='income'){%>
+                                    <tr>
+                                      <td><%= docx.transact_amt %></td>
+                                      <td><%= docx.transact_head %></td>
+                                      <td><%= docx.timestamp %></td>
+                                    </tr>
+                                    <%}%>
+                              <% } %>
+                            </table>
+                          </div>
+                        
+                          <div class="right-table-container">
+                            <table >
+                              <tr>
+                                <th colspan="3">Transaction Type: Expense</th>
+                              </tr>
+                              <tr>
+                                <th>Transc. Amt</th>
+                                <th>Transc. Head</th>
+                                <th>Transc. Date</th>
+                              </tr>
+                              <% for (var docx of docy.yearlySend) { %>
+                                <%if(docx.transact_type==='expense'){%>
+                                    <tr>
+                                      <td><%= docx.transact_amt %></td>
+                                      <td><%= docx.transact_head %></td>
+                                      <td><%= docx.timestamp %></td>
+                                    </tr>
+                                    <%}%>
+                              <% } %>
+                            </table>
+                          </div>
+                        </div>
+                    <div class="openclose">
+                        <h3>Closing Balance: $<%= docy.balance%></h3>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+
+
+    
+
+</body>
+</html>
